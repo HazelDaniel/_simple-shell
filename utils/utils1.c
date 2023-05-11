@@ -7,10 +7,13 @@ char *_trim(char *str);
 int in_str(char c, char *str);
 int is_print(char c);
 
+/**
+ * main - the entry point into the program
+ * Return: int
+ **/
 int main(void)
 {
 	char *hello, *token, *hello0;
-	// char *hello_test = "hello \tworld\t  how  \t  is\tit";
 	char *hello_test0 = "  \t  hello world how is it";
 	char *hello_test = "ls -l";
 
@@ -26,9 +29,7 @@ int main(void)
 	printf("token is :%s\n\n", token);
 	token = _strtok(NULL, " \t");
 	printf("token is :%s\n\n", token);
-	// printf("text is :%s\n", hello);
-	// printf("old text is : %s\n", hello_test);
-	free (hello);
+	free(hello);
 
 	return (0);
 }
@@ -43,24 +44,22 @@ int main(void)
 char *_strtok(char *str, char *delim)
 {
 	/*YOU ALWAYS WANNA PASS IN A TRIMMED STRING*/
-	static int _index = 0;
+	static int _index;
 	int i = 0, count = 0;
 	static char org_buff[1024] = "";
 	unsigned long int int_str;
 	ptrdiff_t diff = (ptrdiff_t)str;
 
+	_index = 0;
 	if (str)
 	{
 		for (count = 0; str[count] && count < 1024; count++)
 			org_buff[count] = str[count];
 	}
-	// char *hello_test = "hello \tworld\t  how  \t  is\tit";
 	if (!org_buff[0])
 		return (NULL);
 	if (!str)
 	{
-		// printf("the current character :%c...\n", ((char *)int_str)[0]);
-		// printf("the current string :%s\n", (char *)int_str);
 		count = 0, i = 0;
 		diff = (ptrdiff_t)(int_str);
 		while (!in_str(((char *)int_str)[count], delim) && ((char *)int_str)[count])
@@ -70,11 +69,9 @@ char *_strtok(char *str, char *delim)
 			count++;
 		_index += count;
 		int_str += count;
-		// printf("word count is : %d\n", i);
 	}
 	else
 	{
-	// char *hello_test = "hello \tworld\t  how  \t  is\tit";
 		count = 0, i = 0;
 		while (in_str(str[count], delim))
 			count++;
@@ -86,8 +83,6 @@ char *_strtok(char *str, char *delim)
 		while (in_str(str[count], delim) && str[count] != '\0')
 			count++;
 		_index = count, int_str += count;
-		// printf("the next character :%c...\n", ((char *)int_str)[0]);
-		// printf("the next string :%s\n", (char *)int_str);
 	}
 	return ((char *)diff);
 }
