@@ -13,12 +13,15 @@ int is_print(char c);
  **/
 int main(void)
 {
-	char *hello, *token, *hello0;
+	char *hello, *token, *hello0, *hello1;
+	char *hello_test = "hello \tworld\t  how  \t  is\tit";
 	char *hello_test0 = "  \t  hello world how is it";
-	char *hello_test = "ls -l";
+	char *hello_test1 = "ls\t -l";
 
 	hello = _trim(hello_test);
 	hello0 = _trim(hello_test0);
+	hello1 = _trim(hello_test1);
+
 	token = _strtok(hello, " \t");
 	printf("token is :%s\n\n", token);
 	token = _strtok(NULL, " \t");
@@ -29,9 +32,19 @@ int main(void)
 	printf("token is :%s\n\n", token);
 	token = _strtok(NULL, " \t");
 	printf("token is :%s\n\n", token);
+	puts("-----");
+	token = _strtok(hello1, "- \t");
+	printf("token is :%s\n\n", token);
+	token = _strtok(NULL, "- \t");
+	printf("token is :%s\n\n", token);
+	// printf("text is :%s\n", hello);
+	// printf("old text is : %s\n", hello_test);
 	free(hello);
+	free(hello0);
+	free(hello1);
 
 	return (0);
+
 }
 /**
 	* _strtok - a re-implementation of
@@ -47,8 +60,8 @@ char *_strtok(char *str, char *delim)
 	static int _index;
 	int i = 0, count = 0;
 	static char org_buff[1024] = "";
-	unsigned long int int_str;
 	ptrdiff_t diff = (ptrdiff_t)str;
+	static unsigned long int int_str;
 
 	_index = 0;
 	if (str)
@@ -62,10 +75,10 @@ char *_strtok(char *str, char *delim)
 	{
 		count = 0, i = 0;
 		diff = (ptrdiff_t)(int_str);
-		while (!in_str(((char *)int_str)[count], delim) && ((char *)int_str)[count])
+		while (((char *)int_str)[count] && !in_str(((char *)int_str)[count], delim))
 			count++, i++;
 		((char *)int_str)[count] = '\0';
-		while (in_str(((char *)int_str)[++count], delim) && ((char *)int_str)[count])
+		while (((char *)int_str)[count] && in_str(((char *)int_str)[++count], delim))
 			count++;
 		_index += count;
 		int_str += count;
@@ -118,8 +131,14 @@ char *_trim(char *str)
 	for (; i >= 0 && in_str(str[i], sp_char); i--)
 		;
 	pos_end = i;
+	// char *hello_test = "hello \tworld\t  how  \t  is\tit";
+	// char *hello_test0 = "  \t  hello world how is it";
+	// char *hello_test1 = "ls\t -l";
+	// printf("end position =%d\n", pos_end);
+	// printf("start position =%d\n", pos_start);
+	// printf("final length =%d\n", pos_end - pos_start);
 
-	res = malloc((pos_end - pos_start + 1) * sizeof(char));
+	res = (char *)malloc((pos_end - pos_start + 2) * sizeof(char));
 	if (res == NULL)
 		return (res);
 	for (i = 0, stat = pos_start; stat <= pos_end; stat++)
