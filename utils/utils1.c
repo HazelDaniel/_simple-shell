@@ -37,8 +37,6 @@ int main(void)
 	printf("token is :%s\n\n", token);
 	token = _strtok(NULL, "- \t");
 	printf("token is :%s\n\n", token);
-	// printf("text is :%s\n", hello);
-	// printf("old text is : %s\n", hello_test);
 	free(hello);
 	free(hello0);
 	free(hello1);
@@ -131,12 +129,6 @@ char *_trim(char *str)
 	for (; i >= 0 && in_str(str[i], sp_char); i--)
 		;
 	pos_end = i;
-	// char *hello_test = "hello \tworld\t  how  \t  is\tit";
-	// char *hello_test0 = "  \t  hello world how is it";
-	// char *hello_test1 = "ls\t -l";
-	// printf("end position =%d\n", pos_end);
-	// printf("start position =%d\n", pos_start);
-	// printf("final length =%d\n", pos_end - pos_start);
 
 	res = (char *)malloc((pos_end - pos_start + 2) * sizeof(char));
 	if (res == NULL)
