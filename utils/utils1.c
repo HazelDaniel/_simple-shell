@@ -1,49 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stddef.h>
-char *_strtok(char *str, char *delim);
-char *_trim(char *str);
-int in_str(char c, char *str);
-int is_print(char c);
+#include "main.h"
 
-/**
- * main - the entry point into the program
- * Return: int
- **/
-int main(void)
-{
-	char *hello, *token, *hello0, *hello1;
-	char *hello_test = "hello \tworld\t  how  \t  is\tit";
-	char *hello_test0 = "  \t  hello world how is it";
-	char *hello_test1 = "ls\t -l";
-
-	hello = _trim(hello_test);
-	hello0 = _trim(hello_test0);
-	hello1 = _trim(hello_test1);
-
-	token = _strtok(hello, " \t");
-	printf("token is :%s\n\n", token);
-	token = _strtok(NULL, " \t");
-	printf("token is :%s\n\n", token);
-	token = _strtok(NULL, " \t");
-	printf("token is :%s\n\n", token);
-	token = _strtok(hello0, " \t");
-	printf("token is :%s\n\n", token);
-	token = _strtok(NULL, " \t");
-	printf("token is :%s\n\n", token);
-	puts("-----");
-	token = _strtok(hello1, "- \t");
-	printf("token is :%s\n\n", token);
-	token = _strtok(NULL, "- \t");
-	printf("token is :%s\n\n", token);
-	free(hello);
-	free(hello0);
-	free(hello1);
-
-	return (0);
-
-}
 /**
 	* _strtok - a re-implementation of
 	* the strtok function.
@@ -76,8 +32,10 @@ char *_strtok(char *str, char *delim)
 		while (((char *)int_str)[count] && !in_str(((char *)int_str)[count], delim))
 			count++, i++;
 		((char *)int_str)[count] = '\0';
+		count++;
 		while (((char *)int_str)[count] && in_str(((char *)int_str)[++count], delim))
 			count++;
+		count--;
 		_index += count;
 		int_str += count;
 	}
@@ -90,10 +48,11 @@ char *_strtok(char *str, char *delim)
 		int_str = (unsigned long int)diff;
 		while (!in_str(str[count], delim))
 			count++;
-		((char *)int_str)[count] = '\0', count++;
-		while (in_str(str[count], delim) && str[count] != '\0')
+		((char *)int_str)[count] = '\0';
+		count++;
+		while (str[count] && in_str(str[count], delim))
 			count++;
-		_index = count, int_str += count;
+		_index += count, int_str += count;
 	}
 	return ((char *)diff);
 }
@@ -106,7 +65,7 @@ char *_strtok(char *str, char *delim)
 char *_trim(char *str)
 {
 	int pos_start = 0, i = 0, pos_end = strlen(str) - 1,
-	stat = 0, sp_num = 0;
+	stat = 0;
 	char *sp_char = " \t", *res = NULL;
 
 	if (!str)
