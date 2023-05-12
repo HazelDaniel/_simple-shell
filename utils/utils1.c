@@ -8,7 +8,7 @@
 	* @delim: the delimiter
 	* Return: char *.
 */
-/*YOU ALWAYS WANNA PASS IN A TRIMMED STRINGS, SO I PROVIDED A FUNCTION*/
+/*YOU ALWAYS WANNA PASS IN TRIMMED STRINGS, SO I PROVIDED A FUNCTION*/
 char *_strtok(char *str, char *delim)
 {
 	static int _index;
@@ -29,26 +29,37 @@ char *_strtok(char *str, char *delim)
 	{
 		if (_index >= strlen(org_buff))
 			return (NULL);
+		// printf("current index is :%d\n", _index);
 		count = 0, i = 0, diff = (ptrdiff_t)(int_str);
 		while (((char *)int_str)[count] && !in_str(((char *)int_str)[count], delim))
-			count++, i++;
-		((char *)int_str)[count] = '\0', count++;
-		while (((char *)int_str)[count] && in_str(((char *)int_str)[++count], delim))
+		{
+			// printf("-graph:%c:\n", ((char *)int_str)[count]);
+			// printf("count=%d\n", count);
+			i++, count++;
+		}
+		while (((char *)int_str)[count] && in_str(((char *)int_str)[count], delim))
+		{
+			// printf("whitespace:%c:\n", ((char *)int_str)[count]);
+			((char *)int_str)[count] = '\0';
 			count++;
-		count--, _index += count, int_str += count;
+		}
+		_index += count, int_str += count;
 	}
 	else
 	{
 		count = 0, i = 0;
-		while (in_str(str[count], delim))
-			count++;
 		diff = (ptrdiff_t)(str + count), int_str = (unsigned long int)diff;
-		while (!in_str(str[count], delim))
-			count++;
-		((char *)int_str)[count] = '\0', count++;
+		while (str[count] && !in_str(str[count], delim))
+		{
+			// printf("graph:%c:\n", ((char *)int_str)[count]);
+			count++, i++;
+		}
 		while (str[count] && in_str(str[count], delim))
-			count++;
+		{
+			((char *)int_str)[count++] = '\0';
+		}
 		_index = count, int_str += count;
+		// printf("next index is :%d\n", _index);
 	}
 	return ((char *)diff);
 }

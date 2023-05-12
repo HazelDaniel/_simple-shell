@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stddef.h>
+#define __cp__(x, y) (_strcpy(&x, &y))
 char *_strtok(char *str, char *delim);
 char *_trim(char *str);
 int in_str(char c, char *str);
