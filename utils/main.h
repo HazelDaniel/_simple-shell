@@ -9,6 +9,8 @@
 char *_strtok(char *str, char *delim);
 char *_trim(char *str);
 int in_str(char c, char *str);
-int s_print(char c);
+int is_print(char c);
 char *_strcpy(char (*dest)[1024], char **src);
+int _strcmp(char **str1_ptr, char **str2_ptr);
+unsigned int _strlen(char *str);
 #endif/*___MAIN_*/
