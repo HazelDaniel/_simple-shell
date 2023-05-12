@@ -19,8 +19,9 @@ char *_strtok(char *str, char *delim)
 
 	if (str)
 	{
+		_index = 0;
 		for (count = 0; str[count] && count < 1024; count++)
-			org_buff[count] = str[count];
+			org_buff[count] = str[count], org_buff[count + 1] = '\0';
 	}
 	if (!org_buff[0])
 		return (NULL);
@@ -31,8 +32,7 @@ char *_strtok(char *str, char *delim)
 		count = 0, i = 0, diff = (ptrdiff_t)(int_str);
 		while (((char *)int_str)[count] && !in_str(((char *)int_str)[count], delim))
 			count++, i++;
-		((char *)int_str)[count] = '\0';
-		count++;
+		((char *)int_str)[count] = '\0', count++;
 		while (((char *)int_str)[count] && in_str(((char *)int_str)[++count], delim))
 			count++;
 		count--, _index += count, int_str += count;
@@ -64,7 +64,7 @@ char *_trim(char *str)
 	stat = 0;
 	char *sp_char = " \t", *res = NULL;
 
-	if (!str)
+	if (!str || !str[0])
 		return (NULL);
 	while (str[i] != '\0')
 	{
@@ -125,4 +125,23 @@ int in_str(char c, char *str)
 		i++;
 	}
 	return (0);
+}
+
+/**
+ * _strcpy - a function that copies the contents
+ * of the source string to the destination string
+ * @dest: destination string
+ * @src: source string
+ * Return: char *
+ **/
+char *_strcpy(char (*dest)[1024], char **src)
+{
+	size_t i;
+
+	if (!src || !src[0])
+		return (NULL);
+	for (i = 0; (*src)[i] != '\0'; i++)
+		(*dest)[i] = (*src)[i];
+	(*dest)[i] = '\0';
+	return ((*dest));
 }
