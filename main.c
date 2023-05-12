@@ -6,8 +6,8 @@
 int main(void)
 {
 	char *hello, *token, *hello0, *hello1, *hello2, hello_cpy[1024] = "";
-	// char *hello_test = "hello \tworld\t -- how  \t  is-\tit", *hello_str = "hello world";
-	char *hello_test = "hello world    -- how is - it", *hello_str = "hello world";
+	char *hello_test = "hello \tworld\t -- how  \t  is-\tit", *hello_str = "hello world";
+	// char *hello_test = "hello world    -- how is - it", *hello_str = "hello world";
 	char *hello_test0 = "hey\t\tmike how's it?", *greet_str = "hello world! greetings";
 	char *hello_test1 = "ls\t -l";
 	char *path_test = "/usr/bin/ls: /home/toughware/bin/mySubCypher:/usr/.local/share/tmp/google-chrome2";
