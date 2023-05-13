@@ -73,6 +73,13 @@ unsigned int _strlen(char *str)
 	return (len);
 }
 
+/**
+ * _realloc - a function that reallocates a memory block
+ * @ptr: the address of the old memory block
+ * @old_size: the number of elements in the old memory block
+ * @size: the number of elements in the new memory block
+ * Return: void *
+ **/
 void *_realloc(void *ptr, size_t old_size, size_t size)
 {
 	char *res_tmp = NULL, *ptr_cp;
