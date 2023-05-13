@@ -72,3 +72,46 @@ unsigned int _strlen(char *str)
 
 	return (len);
 }
+
+void *_realloc(void *ptr, size_t old_size, size_t size)
+{
+	char *res_tmp = NULL, *ptr_cp;
+	void *res = NULL;
+	int index = 0;
+
+	if (size == 0 && ptr)
+	{
+		free(ptr);
+		return (NULL);
+	}
+	if (ptr == NULL)
+	{
+		res = malloc(size);
+		res_tmp = res;
+		res_tmp[size - 1] = '\0';
+	}
+	else
+	{
+		if (size == old_size)
+			return (ptr);
+
+		ptr_cp = ptr;
+		res = malloc(size);
+		if (res == NULL)
+		{
+			free(ptr);
+			return (res);
+		}
+		res_tmp = res;
+		for (index = 0; index < size; index++)
+		{
+			if (size > old_size && index == old_size)
+				break;
+			res_tmp[index] = *ptr_cp++;
+		}
+		--index, res_tmp[index] = '\0';
+		free(ptr);
+	}
+
+	return (res);
+}
