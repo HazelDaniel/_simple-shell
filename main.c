@@ -11,13 +11,18 @@ int main(void)
 	char *hello_test0 = "hey\t\tmike how's it?", *greet_str = "hello world! greetings";
 	char *hello_test1 = "ls\t -l";
 	char *path_test = "/usr/bin/ls: /home/toughware/bin/mySubCypher:/usr/.local/share/tmp/google-chrome2";
-	int cmp;
+	int cmp, i = 0;
 
 	hello = _trim(hello_test);
 	hello0 = _trim(hello_test0);
 	hello1 = _trim(hello_test1);
 	hello2 = _trim(path_test);
 
+	char **arg_test = _splitstr(hello, " \t");
+	for (i = 0; arg_test[i]; i++)
+		printf("a string:%s\n", arg_test[i]);
+	
+	free_str_arr(arg_test, 1);
 
 	// cmp = _strcmp(&greet_str, &hello_str);
 	// printf("difference is:%d\n", cmp);
@@ -54,6 +59,8 @@ int main(void)
 	printf("hello string is :%s:\n", hello);
 	hello = _realloc(hello, _al_len_(hello), 2);
 	printf("hello length is:%d\n", _strlen(hello));
+	printf("hello string is :%s:\n", hello);
+	hello = _strdcat(hello, " people");
 	printf("hello string is :%s:\n", hello);
 	free(hello);
 	free(hello0);

@@ -74,51 +74,66 @@ unsigned int _strlen(char *str)
 }
 
 /**
- * _realloc - a function that reallocates a memory block
- * @ptr: the address of the old memory block
- * @old_size: the number of elements in the old memory block
- * @size: the number of elements in the new memory block
- * Return: void *
- **/
-void *_realloc(void *ptr, size_t old_size, size_t size)
+* _strcat - A function that concatenates two strings
+* @dest: a destination string
+* @src: a string to append
+* Return: Always a string
+**/
+char *_strcat(char *dest, char *src)
 {
-	char *res_tmp = NULL, *ptr_cp;
-	void *res = NULL;
-	int index = 0;
+	int dest_count = 0;
+	int src_count = 0;
 
-	if (size == 0 && ptr)
-	{
-		free(ptr);
+	if (!dest || !src)
 		return (NULL);
-	}
-	if (ptr == NULL)
-	{
-		res = malloc(size);
-		res_tmp = res;
-		res_tmp[size - 1] = '\0';
-	}
-	else
-	{
-		if (size == old_size)
-			return (ptr);
 
-		ptr_cp = ptr;
-		res = malloc(size);
-		if (res == NULL)
-		{
-			free(ptr);
-			return (res);
-		}
-		res_tmp = res;
-		for (index = 0; index < size; index++)
-		{
-			if (size > old_size && index == old_size)
-				break;
-			res_tmp[index] = *ptr_cp++;
-		}
-		--index, res_tmp[index] = '\0';
-		free(ptr);
+	while (dest[dest_count] != '\0')
+	{
+		dest_count++;
 	}
+
+	while (src[src_count] != '\0')
+	{
+		dest[dest_count] = src[src_count];
+		src_count++;
+		dest_count++;
+	}
+	dest[dest_count] = '\0';
+	return (dest);
+}
+
+/**
+* _strdcat - A function that concatenates two strings
+* dynamically
+* @dest: a destination string
+* @src: a string to append
+* description: the first string and only that needs to be
+*     dynamically allocated
+* Return: Always a string
+**/
+char *_strdcat(char *dest, char *src)
+{
+	int dest_count = 0, src_count = 0, ind = 0;
+	unsigned int res_len = 0, len_dest = _strlen(dest);
+	char *res = NULL;
+
+	for (; dest && dest[res_len]; res_len++)
+		;
+	for (; src && src[res_len]; res_len++)
+		;
+	
+	res = malloc((res_len + 1) * sizeof(char));
+	if (res == NULL)
+		return (res);
+	if (res_len == 0)
+		return (NULL);
+	res[res_len] = '\0';
+
+	for (ind = 0; ind < len_dest; ind++)
+		res[ind] = dest[ind];
+	for (; ind < res_len; ind++)
+		res[ind] = src[ind];
+	free(dest);
 
 	return (res);
 }
