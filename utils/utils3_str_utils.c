@@ -106,3 +106,18 @@ int first_oc(char *str, char c)
 	else
 		return (-1);
 }
+
+/**
+ * _strlen_p - returns the length of an array of
+ * derived objects
+ * @p: array of derived objects
+ * Return: int
+ **/
+int _len_p(void **p)
+{
+	int i = 0;
+
+	for (; p[i]; i++)
+		;
+	return (i);
+}
