@@ -64,3 +64,45 @@ char *_strddup(char *src)
 
 	return (res);
 }
+
+/**
+ * adj_char_num - a function that returns
+ * the number of repeating characters in
+ * a string starting at the index of the first
+ * repeating character
+ * @str: the string
+ * @c: the repeating character
+ * @i: the index
+ * Return: int
+ **/
+int adj_char_num(char *str, char c, int i)
+{
+	int tmp = i, count = 0;
+
+	(void)i;
+	while (str[tmp] && str[tmp] == c)
+		count++, tmp++;
+	
+	return (count);
+}
+
+/**
+ * first_oc - a function that returns
+ * the first occurrence of a character
+ * in a string
+ * @str: the string
+ * @c: the character
+ * Return: int
+ **/
+int first_oc(char *str, char c)
+{
+	int count = 0;
+
+	while (str[count] && str[count] != c)
+		count++;
+
+	if (str[count] == c)
+		return (count);
+	else
+		return (-1);
+}

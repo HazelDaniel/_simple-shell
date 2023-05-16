@@ -118,7 +118,7 @@ char *_strdcat(char *dest, char *src)
 	char *res = NULL;
 
 	res_len = _strlen(src) + len_dest;
-	
+
 	res = malloc((res_len + 1) * sizeof(char));
 	if (res == NULL)
 		return (res);

@@ -5,67 +5,94 @@
  **/
 int main(void)
 {
-	char *hello, *token, *hello0, *hello1, *hello2, hello_cpy[1024] = "";
-	char *hello_test = "hello    \tworld\t -- how  \t  is -\tit", *hello_str = "hello world";
-	// char *hello_test = "hello world    -- how is - it", *hello_str = "hello world";
-	char *hello_test0 = "hey\t\tmike how's it?", *greet_str = "hello world! greetings";
-	char *hello_test1 = "ls\t -l";
+	char *token, hello_cpy[1024], *log_token;
+	char *command_list = "\tpwd;ls || echo hello world ; alx-milestones && echo hello world ; ps && ls || head -n 1 || whoami";
 	char *path_test = "/usr/bin/ls: /home/toughware/bin/mySubCypher:/usr/.local/share/tmp/google-chrome2";
-	int cmp, i = 0;
+	int cmp, i = 0, j = 0;
+	cmdlist_t *comm_list = NULL, *comm;
 
-	hello = _trim(hello_test);
-	hello0 = _trim(hello_test0);
-	hello1 = _trim(hello_test1);
-	hello2 = _trim(path_test);
+	comm_list = malloc(100 + 1 * sizeof(cmdlist_t));
+	if (!comm_list)
+		return (1);
+	i = 0;
 
-	char **arg_test = _splitstr(hello, " \t");
-	for (i = 0; arg_test[i]; i++)
-		printf("a string:%s\n", arg_test[i]);
-	
-	free_str_arr(arg_test, 1);
+	char *cmd_list = _trim(command_list), **all_commands = NULL;
+	char *cmd_trim, *sub_cmd_trim, **all_c, **all_c2;
 
-	// cmp = _strcmp(&greet_str, &hello_str);
-	// printf("difference is:%d\n", cmp);
 
-	// token = _strtok(__cp__(hello_cpy, hello), " \t");
-	// printf("token is :%s\n\n", token);
-	// while (token)
-	// {
-	// 	token = _strtok(NULL, " \t");
-	// 	printf("token is :%s\n\n", token);
-	// }
-	// token = _strtok(__cp__(hello_cpy, hello1), " -");
-	// printf("token is :%s\n\n", token);
-	// while (token)
-	// {
-	// 	token = _strtok(NULL, " -");
-	// 	printf("token is :%s\n\n", token);
-	// }
-	// token = _strtok(__cp__(hello_cpy, hello0), " \t");
-	// while (token)
-	// {
-	// 	token = _strtok(NULL, " \t");
-	// 	printf("token is :%s\n\n", token);
-	// }
-	// token = _strtok(__cp__(hello_cpy, hello2), ": ");
-	// printf("current dir=>%s\n", token);
-	// while (token)
-	// {
-	// 	token = _strtok(NULL, ": ");
-	// 	printf("current dir=>%s\n", token);
-	// }
-	hello = _realloc(hello, _al_len_(hello), 6);
-	printf("hello length is:%d\n", _strlen(hello));
-	printf("hello string is :%s:\n", hello);
-	hello = _realloc(hello, _al_len_(hello), 2);
-	printf("hello length is:%d\n", _strlen(hello));
-	printf("hello string is :%s:\n", hello);
-	hello = _strdcat(hello, " people");
-	printf("hello string is :%s:\n", hello);
-	free(hello);
-	free(hello0);
-	free(hello1);
-	free(hello2);
+	//"\tpwd;ls || echo hello world ; alx-milestones && echo hello world ; ps && ls || head -n 1 || whoami";
+	//"\tpwd;ls && echo hello world ; alx-milestones || echo hello world ; ps && ls && head -n 1 && whoami";
+	all_commands = _splitstr(cmd_list, ";");
+	if (!all_commands)
+		return (1);
+
+	for (i = 0; all_commands[i]; i++)
+	{
+		char *cmd_trim = _trim(all_commands[i]), *sub_cmd_trim = NULL;
+		char **all_c = NULL, **all_c2 = NULL;
+
+		if (in_str('|', cmd_trim) && in_str('&', cmd_trim))
+		{
+			if (first_oc(cmd_trim, '|') < first_oc(cmd_trim, '&'))
+			{
+				all_c = _splitstr(cmd_trim, "|");
+				for (j = 0; all_c[j]; j++)
+				{
+					if (!in_str('&', all_c[j]))
+						printf("or command=>%s\n", all_c[j]);
+				}
+				for (j =0; all_c[j]; j++)
+				{
+					if (in_str('&', all_c[j]))
+					{
+						sub_cmd_trim = _trim(all_c[j]);
+						all_c2 = _splitstr(sub_cmd_trim, "&");
+						for (j = 0; all_c2[j]; j++)
+							printf("and command=>%s\n", all_c2[j]);
+					}
+				}
+			}
+			else
+			{
+				all_c = _splitstr(cmd_trim, "|");
+				for (j =0; all_c[j]; j++)
+				{
+					if (in_str('&', all_c[j]))
+					{
+						sub_cmd_trim = _trim(all_c[j]);
+						all_c2 = _splitstr(sub_cmd_trim, "&");
+						for (j = 0; all_c2[j]; j++)
+							printf("and command=>%s\n", all_c2[j]);
+					}
+				}
+				for (j = 0; all_c[j]; j++)
+				{
+					if (!in_str('&', all_c[j]))
+						printf("or command=>%s\n", all_c[j]);
+				}
+			}
+		}
+		else if (in_str('|', cmd_trim))
+		{
+			all_c = _splitstr(cmd_trim, "|");
+			for (j = 0; all_c[j]; j++)
+				printf("or command=>%s\n", all_c[j]);
+		}
+		else if (in_str('&', cmd_trim))
+		{
+			all_c = _splitstr(cmd_trim, "&");
+			for (j = 0; all_c[j]; j++)
+				printf("and command=>%s\n", all_c[j]);
+		}
+		else
+		{
+			printf("free command=>%s\n", all_commands[i]);
+		}
+		puts("===================================>");
+		free(cmd_trim);
+	}
+
+	free(cmd_list);
 
 	return (0);
 }

@@ -64,3 +64,21 @@ void free_str_arr(char **str_arr, int is_dyn)
 	if (is_dyn)
 		free(str_arr);
 }
+
+/**
+ * _memcpy - copies the content of a pointer
+ * into another
+ * @newptr: destination pointer.
+ * @ptr: source pointer.
+ * @size: size of the new pointer.
+ * Return: void
+ */
+void _memcpy(void *newptr, const void *ptr, unsigned int size)
+{
+	char *char_ptr = (char *)ptr;
+	char *char_newptr = (char *)newptr;
+	unsigned int i;
+
+	for (i = 0; i < size; i++)
+		char_newptr[i] = char_ptr[i];
+}

@@ -6,13 +6,18 @@
 	* converts input string to tokens
 	* @str: parameter of type char *.
 	* @delim: the delimiter
+	* description:
+	*     extra modification is made to the function
+	*     to be able to split commands logically
+	*     hence, it may not work as the standard counterpart
+	*     in some cases
 	* Return: char *.
 */
 /*YOU ALWAYS WANNA PASS IN TRIMMED STRINGS, SO I PROVIDED A FUNCTION*/
 char *_strtok(char *str, char *delim)
 {
 	static int _index;
-	int i = 0, count = 0;
+	int i = 0, count = 0, rep_count;
 	static char org_buff[1024] = "";
 	ptrdiff_t diff = (ptrdiff_t)str;
 	static unsigned long int int_str;
@@ -30,8 +35,20 @@ char *_strtok(char *str, char *delim)
 		if (_index >= strlen(org_buff))
 			return (NULL);
 		count = 0, i = 0, diff = (ptrdiff_t)(int_str);
-		while (((char *)int_str)[count] && !in_str(((char *)int_str)[count], delim))
+		while (((char *)int_str)[count])
+		{
+			if (in_str(((char *)int_str)[count], "&|") && in_str(((char *)int_str)[count], delim))
+			{
+				rep_count = adj_char_num((char *)(int_str + count), ((char *)int_str)[count], _index);
+				if (rep_count == 2)
+					count += rep_count - 1;
+				else
+					break;
+			}
+			else if (in_str(((char *)int_str)[count], delim))
+				break;
 			i++, count++;
+		}
 		while (((char *)int_str)[count] && in_str(((char *)int_str)[count], delim))
 			((char *)int_str)[count++] = '\0';
 		_index += count, int_str += count;
@@ -40,8 +57,20 @@ char *_strtok(char *str, char *delim)
 	{
 		count = 0, i = 0;
 		diff = (ptrdiff_t)(str + count), int_str = (unsigned long int)diff;
-		while (str[count] && !in_str(str[count], delim))
+		while (str[count])
+		{
+			if (in_str(str[count], "&|") && in_str(str[count], delim))
+			{
+				rep_count = adj_char_num((char *)(int_str + count), ((char *)int_str)[count], _index);
+				if (rep_count != 2)
+					count += rep_count - 1;
+				else
+					break;
+			}
+			else if (in_str(str[count], delim))
+				break;
 			count++, i++;
+		}
 		while (str[count] && in_str(str[count], delim))
 			((char *)int_str)[count++] = '\0';
 		_index = count, int_str += count;
