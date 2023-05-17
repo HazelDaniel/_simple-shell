@@ -72,9 +72,11 @@ void append_comm(comm_list_t* list, char separator,
 void print_comms(const comm_list_t list);
 void print_comms_full();
 trashenv_t *get_trash(trashenv_t *list, char *value);
-void append_trash(trashenv_t *list, char *value, int index);
+void append_trash(char *value, int index);
 void remove_trash(trashenv_t *list, char *value);
 void clear_trash(trashenv_t *list);
+void print_trash(trashenv_t *list);
+trashenv_t *pop_trash();
 
 /* SPLIT UTILS */
 void split_by_or(comm_list_t *c_list,

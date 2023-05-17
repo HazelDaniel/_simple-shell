@@ -51,10 +51,8 @@ int _setenv(char *input1, char *input2)
 
 	for (i = 0; new_environ[i]; i++)
 	{
-		// printf("a value:%s:\tand its equiv:%s\n", input1, new_environ[i]);
 		if (is_start_str(input1, new_environ[i]))
 		{
-			printf("%s: starts :%s\n", input1, new_environ[i]);
 			free(new_environ[i]);
 			new_environ[i] = NULL;
 			new_environ[i] = new_val;
@@ -62,26 +60,28 @@ int _setenv(char *input1, char *input2)
 		}
 	}
 
-	trash_equiv = get_trash(env_trash, new_val);
-	// if (trash_equiv)
-	// {
-	// 		/* to handle later */
-	// 	printf("a trash equivalent :%s\n", trash_equiv->value);
-	// }
-	// else
-	// {
-	// }
-	new_environ = (char **)_realloc_ptr(new_environ, p_len, p_len + 1);
-	if (!new_environ)
-		new_environ = tmp_env;
+	trash_equiv = pop_trash();
+	if (trash_equiv)
+	{
+		free(new_environ[*(trash_equiv->index)]);
+		new_environ[*(trash_equiv->index)] = NULL;
+		new_environ[*(trash_equiv->index)] = new_val;
+		free(trash_equiv->index);
+		free(trash_equiv->value);
+		free(trash_equiv);
+	}
 	else
 	{
-		new_environ[i] = new_val;
-	}
-
-	for (i = 0; new_environ[i]; i++)
-	{
-		printf("entry: %s\n", new_environ[i]);
+		new_environ = (char **)_realloc_ptr(new_environ, p_len, p_len + 1);
+		if (!new_environ)
+		{
+			new_environ = tmp_env;
+		}
+		else
+		{
+			new_environ[i] = new_val;
+			new_environ[i + 1] = NULL;
+		}
 	}
 
 	return (0);
@@ -105,18 +105,15 @@ void _unsetenv(char *value)
 {
 	int count, i;
 
-	// printf("the number of variables in the environment is :%d\n", _len_p((void *)new_environ));
-
-	for (i = 0; new_environ[i] != NULL; i++)
+	for (i = 0; new_environ[i]; i++)
 	{
-		printf("value:%s:, equiv:%s\n", value, new_environ[i]);
 		if (is_start_str(value, new_environ[i]))
 		{
-			printf("value is :%s\n", value);
 			free(new_environ[i]);
-			append_trash(env_trash, _strddup(value), i);
+			new_environ[i] = _strddup("|=|");
+			append_trash(_strddup(value), i);
+			break;
 		}
-		break;
 	}
 }
 

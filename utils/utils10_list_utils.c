@@ -1,6 +1,6 @@
 #include "main.h"
 
-void append_trash(trashenv_t *list, char *value, int index)
+void append_trash(char *value, int index)
 {
 	trashenv_t* new_trash = (trashenv_t *)malloc(sizeof(trashenv_t)), *current;
 
@@ -11,13 +11,13 @@ void append_trash(trashenv_t *list, char *value, int index)
 	*(new_trash->index) = index;
 	new_trash->next = NULL;
 
-	if (!list)
+	if (!env_trash)
 	{
-		list = new_trash;
+		env_trash = new_trash;
 	}
 	else
 	{
-		current = list;
+		current = env_trash;
 
 		while (current && current->next != NULL)
 		{
@@ -87,4 +87,29 @@ trashenv_t *get_trash(trashenv_t *list, char *value)
 	}
 
 	return (current);
+}
+
+trashenv_t *pop_trash()
+{
+	trashenv_t *current = env_trash;
+
+	if (current)
+	{
+		env_trash = current->next;
+	}
+	return (current);
+}
+
+void print_trash(trashenv_t *list)
+{
+	trashenv_t *current = list;
+	if (!current)
+	{
+		puts("(nil)");
+	}
+	while (current)
+	{
+		printf("current trash:%s\n", current->value);
+		current = current->next;
+	}
 }
