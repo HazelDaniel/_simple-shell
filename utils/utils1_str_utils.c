@@ -9,8 +9,8 @@
 	* description:
 	*     extra modification is made to the function
 	*     to be able to split commands logically
-	*     hence, it may not work as the standard counterpart
-	*     in some cases
+	*     hence, it may provide results different from the
+	*     standard version in some cases
 	* Return: char *.
 */
 /*YOU ALWAYS WANNA PASS IN TRIMMED STRINGS, SO I PROVIDED A FUNCTION*/
@@ -18,22 +18,21 @@ char *_strtok(char *str, char *delim)
 {
 	static int _index;
 	int i = 0, count = 0, rep_count;
-	static char org_buff[1024] = "";
+	static char *org_buff = NULL;
 	ptrdiff_t diff = (ptrdiff_t)str;
 	static unsigned long int int_str;
 
 	if (str)
-	{
-		_index = 0;
-		for (count = 0; str[count] && count < 1024; count++)
-			org_buff[count] = str[count], org_buff[count + 1] = '\0';
-	}
+		_index = 0, org_buff = _strddup(str);
 	if (!org_buff[0])
 		return (NULL);
 	if (!str)
 	{
 		if (_index >= strlen(org_buff))
+		{
+			free(org_buff), org_buff = NULL;
 			return (NULL);
+		}
 		count = 0, i = 0, diff = (ptrdiff_t)(int_str);
 		while (((char *)int_str)[count])
 		{
@@ -142,6 +141,9 @@ int is_print(char c)
 int in_str(char c, char *str)
 {
 	int i = 0;
+
+	if (!str)
+		return (0);
 
 	while (str[i] != '\0')
 	{

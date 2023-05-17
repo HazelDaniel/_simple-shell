@@ -14,45 +14,41 @@
 int _strcmp(char **str1_ptr, char **str2_ptr)
 {
 	char *str1 = *str1_ptr, *str2 = *str2_ptr;
-	int count, len1 = _strlen(str1), len2 = _strlen(str2);
+	int count, i, len1 = _strlen(str1), len2 = _strlen(str2);
 
 	if (str1_ptr == str2_ptr)
 		return (0);
 	if (!str1 && !str2)
 		return (0);
 	if (!str1 && str2)
-	{
-		while (*str2++)
-			count++;
-		return (-count);
-	}
+		return (len2);
 	if (str1 && !str2)
-	{
-		while (*str1++)
-			count++;
-		return (count);
-	}
+		return (len1);
 	count = 0;
-	while (*str1 == *str2)
-		str1++, str2++;
+	if (str1[count] != str2[count])
+		return (len1 + len2);
 
-	if (!*str1 && !*str2)
+	while (str1[count] == str2[count] && (str2[count] && str1[count]))
+		count++;
+
+	if (!str1[count] && !str2[count])
 		return (0);
 	if (*str1 && *str2)
-		return (len1 + len2);
-	if (*str1 && !*str2)
+		return (len1 - len2);
+	i = 0;
+	if (str1[count] && !str2[count])
 	{
-		while (*str1++)
-			count++;
-		return (count);
+		while (str1[count])
+			count++, i++;
+		return (i);
 	}
-	if (!*str1 && *str2)
+	if (!str1[count] && str2[count])
 	{
-		while (*str2++)
-			count++;
-		return (-count);
+		while (str2[count])
+			count++, i++;
+		return (-i);
 	}
-	return (99);
+	return (1024); /* return value not needed anywhere, all branches have been handled*/
 }
 
 /**

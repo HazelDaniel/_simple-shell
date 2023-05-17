@@ -1,0 +1,21 @@
+THE ENVIRONMENT:
+	Make a copy of the environment once to new_environ
+	setenv:
+	 already implemented
+	getenv:
+	already implemented
+	unsetenv:
+		when unsetenv is called, it goes through the environment and looks for
+		match. if no match is found, it returns
+		else if a match is found, constructs a new deleted struct
+		sets it index and value, appends it to the trash environment, and frees the entry in the
+		main environment
+implement a trash list for deleted environment variable:
+	-this trash list is a linked list of deleted variables
+	-each deleted struct holds the index from which it was popped off
+	and also it's value( in the form :"name=value")
+	-when setenv is called, it first looks into the trash environment 
+	if trash is empty, it appends to the environment normally
+	if trash is not empty, it fills the position of the deleted struct
+
+

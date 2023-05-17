@@ -30,7 +30,7 @@ char **_splitstr(char *str, char *delim)
 	res_str = malloc((res_index + 1) * sizeof(char *));
 	if (res_str == NULL)
 	{
-		free_str_arr(res_buff, 0);
+		free_str_arr(res_buff, 1);
 		return (NULL);
 	}
 	res_str[res_index] = NULL;
