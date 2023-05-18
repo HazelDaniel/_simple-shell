@@ -44,8 +44,7 @@ int _setenv(char *input1, char *input2)
 	new_val = malloc((len1 + len2 + 2));
 	if (!new_val)
 		return (-1);
-	_memcpy(input1, new_val, len1);
-	new_val[len1] = '=';
+	_memcpy(input1, new_val, len1), new_val[len1] = '=';
 	_memcpy(input2, new_val + len1 + 1, len2);
 	new_val[len1 + len2 + 1] = '\0';
 
@@ -54,35 +53,25 @@ int _setenv(char *input1, char *input2)
 		if (is_start_str(input1, new_environ[i]))
 		{
 			free(new_environ[i]);
-			new_environ[i] = NULL;
-			new_environ[i] = new_val;
+			new_environ[i] = NULL, new_environ[i] = new_val;
 			return (0);
 		}
 	}
-
 	trash_equiv = pop_trash();
 	if (trash_equiv)
 	{
 		free(new_environ[*(trash_equiv->index)]);
 		new_environ[*(trash_equiv->index)] = NULL;
 		new_environ[*(trash_equiv->index)] = new_val;
-		free(trash_equiv->index);
-		free(trash_equiv->value);
+		free(trash_equiv->index), free(trash_equiv->value);
 		free(trash_equiv);
+		return (0);
 	}
+	new_environ = (char **)_realloc_ptr(new_environ, p_len, p_len + 1);
+	if (!new_environ)
+		new_environ = tmp_env;
 	else
-	{
-		new_environ = (char **)_realloc_ptr(new_environ, p_len, p_len + 1);
-		if (!new_environ)
-		{
-			new_environ = tmp_env;
-		}
-		else
-		{
-			new_environ[i] = new_val;
-			new_environ[i + 1] = NULL;
-		}
-	}
+		new_environ[i] = new_val, new_environ[i + 1] = NULL;
 
 	return (0);
 }

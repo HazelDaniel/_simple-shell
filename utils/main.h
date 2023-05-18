@@ -3,8 +3,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
+#include <stdlib.h>
 #include <stddef.h>
 
 /* MACROS */
@@ -33,11 +33,18 @@ struct trash_env
 
 typedef struct trash_env trashenv_t;
 
+typedef struct path_dir
+{
+	char *dir;
+	struct path_dir *next;
+} pathdir_t;
+
 extern char **environ;
 extern char **new_environ;
 extern comm_list_t *commands;
 extern int comms_index;
 extern trashenv_t *env_trash;
+extern pathdir_t *path_list;
 
 
 /* STRING UTILS */
@@ -56,6 +63,8 @@ char *_strdcat(char *dest, char *src);
 int adj_char_num(char *str, char c, int i);
 int first_oc(char *str, char c);
 int is_start_str(char *strsub, char *strsup);
+int is_end_str(char *strsub, char *strsup);
+char * rm_tr_slash(char *str);
 
 
 /* MEMORY UTILS */
@@ -77,6 +86,9 @@ void remove_trash(trashenv_t *list, char *value);
 void clear_trash(trashenv_t *list);
 void print_trash(trashenv_t *list);
 trashenv_t *pop_trash();
+pathdir_t *linkpath(char *path);
+void append_path(char *value);
+void print_path();
 
 /* SPLIT UTILS */
 void split_by_or(comm_list_t *c_list,
@@ -105,5 +117,10 @@ void _unsetenv(char *value);
 void _copyenv();
 void _freenv();
 
+/* PATH HANDLERS */
+char *_trace(char *input);
+
+/* INPUT HANDLERS */
+ssize_t _getline(char **line_addr, size_t *n, FILE *stream);
 
 #endif/*___MAIN_*/

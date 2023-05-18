@@ -24,7 +24,7 @@ char *_strtok(char *str, char *delim)
 
 	if (str)
 		_index = 0, org_buff = _strddup(str);
-	if (!org_buff[0])
+	if (!org_buff || !org_buff[0])
 		return (NULL);
 	if (!str)
 	{

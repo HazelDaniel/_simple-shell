@@ -80,8 +80,10 @@ char *_strcat(char *dest, char *src)
 	int dest_count = 0;
 	int src_count = 0;
 
-	if (!dest || !src)
+	if (!dest)
 		return (NULL);
+	if (!src)
+		return (dest);
 
 	while (dest[dest_count] != '\0')
 	{
