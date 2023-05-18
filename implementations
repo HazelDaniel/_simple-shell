@@ -20,5 +20,10 @@ implement a trash list for deleted environment variable:
 
 THE PATH:
 	the path is an entry in the environment extracted to it's own linked list
-	which:
-
+	trace: returns the absolute path of a command
+ALIAS:
+	the alias is a linked list
+	when alias is called, it goes through the argument list passed
+	if there's no argument passed to it, it basically gets a list of aliases
+	if there's an equal sign in an argument, it separates it into two operands and it calls _setalias on it
+	if there's no equal sign, it calls a _getalias on the single operand - prints out the equivalent value followed by a new line

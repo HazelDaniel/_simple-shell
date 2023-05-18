@@ -39,12 +39,19 @@ typedef struct path_dir
 	struct path_dir *next;
 } pathdir_t;
 
+typedef struct alias
+{
+	char *value;
+	struct alias *next;
+} alias_t;
+
 extern char **environ;
 extern char **new_environ;
 extern comm_list_t *commands;
 extern int comms_index;
 extern trashenv_t *env_trash;
 extern pathdir_t *path_list;
+extern alias_t *aliases;
 
 
 /* STRING UTILS */
@@ -122,5 +129,12 @@ char *_trace(char *input);
 
 /* INPUT HANDLERS */
 ssize_t _getline(char **line_addr, size_t *n, FILE *stream);
+
+/* ALIAS HANDLERS */
+char *_getalias(char *input);
+char *_setalias(char *input);
+char *alias(char *input);
+void free_aliases(alias_t *list);
+void print_aliases();
 
 #endif/*___MAIN_*/

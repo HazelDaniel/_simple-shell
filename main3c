@@ -24,8 +24,32 @@ int main(void)
 	char **cmd, *prompts[10] = {"_$ ", " ___(host@username)\n|___: "};
 
 
+	// res = _strdcat(buff, "hello world");
+	// res = _strdcat(res, ", how is it going");
+	// printf("result is :%s\n", res);
+	// free(res);
+	// res = _trace("ls");
+	// printf("ls: command can be found in :%s\n", res);
+	while (1)
+	{
+		buff = malloc(1);
+		if (read == EOF)
+			break;
+		else
+			printf("%s", prompts[1]);
+		read = _getline(&buff, &size, STDIN_FILENO);
+		if (read != -1)
+		{
+			status = parse_to_commands(buff);
+			if (status == -1)
+				return (status);
+			print_comms_full();
+		}
+		free(buff);
+		buff = NULL;
+	}
+
 	_freenv();
-	free_aliases(aliases);
 
 	return (0);
 }
