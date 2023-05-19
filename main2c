@@ -30,7 +30,7 @@ int main(void)
 	// printf("PATH is :%s\n", _getenv("PATH"));
 	char *str1 = "SHELL";
 	char *str2 = "SHELL", *str_cpy;
-	i = _strcmp(&str1, &str2);
+	i = _strcmp(str1, str2);
 	// printf("i is %d\n", i);
 	// // _setenv("what", "the_f");
 	// // _unsetenv("what");

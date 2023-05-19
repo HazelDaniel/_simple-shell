@@ -21,7 +21,7 @@ char *_getenv(char *input)
 	{
 		cp_buffer = _strddup(new_environ[i]);
 		token = _strtok(cp_buffer, "=");
-		if (!_strcmp(&token, &input))
+		if (!_strcmp(token, input))
 		{
 			token = _strtok(NULL, "=");
 			empty_state_buff("=");

@@ -11,13 +11,10 @@
 	*  you'll get the same behavior as the standard strcmp
 	*  function
  */
-int _strcmp(char **str1_ptr, char **str2_ptr)
+int _strcmp(char *str1, char *str2)
 {
-	char *str1 = *str1_ptr, *str2 = *str2_ptr;
 	int count, i, len1 = _strlen(str1), len2 = _strlen(str2);
 
-	if (str1_ptr == str2_ptr)
-		return (0);
 	if (!str1 && !str2)
 		return (0);
 	if (!str1 && str2)
@@ -30,11 +27,10 @@ int _strcmp(char **str1_ptr, char **str2_ptr)
 
 	while (str1[count] == str2[count] && (str2[count] && str1[count]))
 		count++;
-
 	if (!str1[count] && !str2[count])
 		return (0);
-	if (*str1 && *str2)
-		return (len1 - len2);
+	if (str1[count] && str2[count])
+		return (find_max(len1, len2) - count);
 	i = 0;
 	if (str1[count] && !str2[count])
 	{
@@ -48,7 +44,7 @@ int _strcmp(char **str1_ptr, char **str2_ptr)
 			count++, i++;
 		return (-i);
 	}
-	return (1024); /* return value not needed anywhere, all branches have been handled*/
+	return (count);/* not needed all paths handled already */
 }
 
 /**

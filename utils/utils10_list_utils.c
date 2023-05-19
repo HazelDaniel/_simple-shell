@@ -58,7 +58,7 @@ void remove_trash(trashenv_t *list, char *value)
 
 	if (!current)
 		return;
-	while (current && (_strcmp(&(current->value), &value)))
+	while (current && (_strcmp(current->value, value)))
 	{
 		prev = current;
 		current = current->next;
@@ -80,7 +80,7 @@ trashenv_t *get_trash(trashenv_t *list, char *value)
 {
 	trashenv_t *current = list, *prev = NULL;
 
-	while (current && (_strcmp(&(current->value), &value)))
+	while (current && (_strcmp(current->value, value)))
 	{
 		prev = current;
 		current = current->next;

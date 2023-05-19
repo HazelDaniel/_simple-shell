@@ -35,7 +35,7 @@ int main(void)
 		token = _strtok(NULL, ";");
 		printf("command is :%s\n\n", token);
 	}
-	// cmp = _strcmp(&greet_str, &hello_str);
+	// cmp = _strcmp(greet_str, hello_str);
 	// printf("difference is:%d\n", cmp);
 
 	// token = _strtok(__cp__(hello_cpy, hello), " \t");

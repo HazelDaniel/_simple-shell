@@ -63,7 +63,7 @@ int is_print(char c);
 char *_strcpy(char (*dest)[1024], char **src);
 int _len_p(void **p);
 char *_strddup(char *src);
-int _strcmp(char **str1_ptr, char **str2_ptr);
+int _strcmp(char *str1, char *str2);
 unsigned int _strlen(char *str);
 char *_strcat(char *dest, char *src);
 char *_strdcat(char *dest, char *src);
@@ -136,5 +136,8 @@ char *_setalias(char *input);
 char *alias(char *input);
 void free_aliases(alias_t *list);
 void print_aliases();
+
+/* MISC */
+int find_max(int num1, int num2);
 
 #endif/*___MAIN_*/

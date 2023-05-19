@@ -1,6 +1,7 @@
 #include "utils/main.h"
-char *_getalias(char *input);
-char *_setalias(char *input);
+
+int compare_and_sub(alias_t **current_ptr, alias_t **new_ptr,
+	char **input_ptr, char **cpy_ptr, char **key_ptr);
 
 char *alias(char *input)
 {
@@ -18,7 +19,9 @@ char *_getalias(char *input)
 	while (current)
 	{
 		if (is_start_str(input, current->value))
+		{
 			return (current->value);
+		}
 		current = current->next;
 	}
 	return (NULL);
@@ -26,28 +29,44 @@ char *_getalias(char *input)
 
 char *_setalias(char *input)
 {
-	alias_t* new_alias = (alias_t *)malloc(sizeof(alias_t)), *current;
+	alias_t *new_alias = (alias_t *)malloc(sizeof(alias_t)), *current;
+	char *cpy = _strddup(input), *key = _strtok(cpy, "=");
 
 	if (!new_alias)
 		return (NULL);
-	new_alias->value = _strddup(input);
-	new_alias->next = NULL;
+	new_alias->value = _strddup(input), new_alias->next = NULL;
 
+	empty_state_buff("=");
 	if (!aliases)
 	{
 		aliases = new_alias;
+		free(cpy);
+		return (new_alias->value);
 	}
-	else
-	{
-		current = aliases;
+	current = aliases;
 
-		while (current && current->next != NULL)
-		{
-			current = current->next;
-		}
+	if (!current->next)
+	{
+		if (compare_and_sub(&current,
+		&new_alias, &input, &cpy, &key))
+			return (current->value);
 		current->next = new_alias;
+		return (new_alias->value);
 	}
-	return (0);
+	while (current && current->next)
+	{
+		if (compare_and_sub(&current,
+		&new_alias, &input, &cpy, &key))
+			return (current->value);
+		current = current->next;
+	}
+	if (compare_and_sub(&current,
+	&new_alias, &input, &cpy, &key))
+		return (current->value);
+	current->next = new_alias;
+	free(cpy);
+
+	return (new_alias->value);
 }
 
 void free_aliases(alias_t *list)
@@ -84,4 +103,22 @@ void print_aliases()
 		printf("%s\n", current->value);
 		current = current->next;
 	}
+}
+
+int compare_and_sub(alias_t **current_ptr, alias_t **new_ptr,
+	char **input_ptr, char **cpy_ptr, char **key_ptr)
+{
+	if (!_strcmp(((*current_ptr)->value), *input_ptr))
+	{
+		free((*new_ptr)), free(*cpy_ptr);
+		return (1);
+	}
+	else if (is_start_str(*key_ptr, (*current_ptr)->value))
+	{
+		free((*current_ptr)->value);
+		(*current_ptr)->value = _strddup(*input_ptr);
+		return (1);
+	}
+
+	return (0);
 }
