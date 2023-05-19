@@ -27,3 +27,16 @@ ALIAS:
 	if there's no argument passed to it, it basically gets a list of aliases
 	if there's an equal sign in an argument, it separates it into two operands and it calls _setalias on it
 	if there's no equal sign, it calls a _getalias on the single operand - prints out the equivalent value followed by a new line
+variables:
+	this is a linked list of dyn allocd strings that holds all
+	variables that are not in the environment e.g => pid($$), exit_status($?)
+VARIABLE REPLACEMENTS(or expansion):
+	in each command in a point or flow,
+	if any of the arguments passed into the command contains a dollar sign
+	we check if it's in either the environment or the variables
+	if it's there, we get the corresponding 'value' of the
+	'$variable' and replace it's position in the argument vector with the proper 'value'
+	[meaning that argument vector(our version of it)
+	is going to be an array of dynamically allocated strings(split_str)]
+	and then proceeds with the execution of the arguments
+	note: a variable has to begin with $ before you can search it against the variables list

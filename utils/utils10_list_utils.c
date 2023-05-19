@@ -104,9 +104,7 @@ void print_trash(trashenv_t *list)
 {
 	trashenv_t *current = list;
 	if (!current)
-	{
 		puts("(nil)");
-	}
 	while (current)
 	{
 		printf("current trash:%s\n", current->value);

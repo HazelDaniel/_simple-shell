@@ -7,6 +7,7 @@ char **new_environ = NULL;
 trashenv_t *env_trash = NULL;
 pathdir_t *path_list = NULL;
 alias_t *aliases = NULL;
+var_t *variables = NULL;
 
 /**
  * main - the entry point into the program
@@ -24,24 +25,16 @@ int main(void)
 	char **cmd, *prompts[10] = {"_$ ", " ___(host@username)\n|___: "};
 
 	alias("hazel='daniel'");
-	// alias("toughware='hazel'");
-	// alias("toughware='donut'");
-	// alias("toughware='donut'");
-	// alias("toughware='hazel'");
-	// alias("magic='happens'");
-	// alias("bad='boujee'");
-	// alias("bad='better'");
-	// alias("bad='ninja'");
-	// alias("magic='works'");
-	// alias("bad='boujee'");
-	// alias("bad='awesome'");
-	// alias("hazel='you'");
-	// alias("evan='they'");
-	buff = alias("nope");
-	printf("%s",buff);
+	_setvar("xx=2");
+	_setvar("v=3");
+	buff = _getvar("$xx");
+	printf("%s\n", buff);
+	buff = _getvar("$v");
+	printf("%s\n", buff);
 
 	_freenv();
 	free_aliases(aliases);
+	free_vars(variables);
 
 	return (0);
 }

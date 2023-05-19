@@ -1,10 +1,15 @@
 #include "utils/main.h"
 
-int compare_and_sub(alias_t **current_ptr, alias_t **new_ptr,
+static int compare_and_sub(alias_t **current_ptr, alias_t **new_ptr,
 	char **input_ptr, char **cpy_ptr, char **key_ptr);
 
 char *alias(char *input)
 {
+	if (!input)
+	{
+		print_aliases();
+		return (NULL);
+	}
 	if (in_str('=', input))
 		return (_setalias(input));
 	return (_getalias(input));
@@ -105,7 +110,7 @@ void print_aliases()
 	}
 }
 
-int compare_and_sub(alias_t **current_ptr, alias_t **new_ptr,
+static int compare_and_sub(alias_t **current_ptr, alias_t **new_ptr,
 	char **input_ptr, char **cpy_ptr, char **key_ptr)
 {
 	if (!_strcmp(((*current_ptr)->value), *input_ptr))

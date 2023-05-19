@@ -12,26 +12,29 @@
 #define _al_len_(x) (_len_p((void **)x) + (1))
 
 /* STRUCTURES AND DECLARATIONS */
-struct command
+typedef struct command
 {
 	char *separator;
 	char *command;
 	int *status;
 	struct command *next;
-};
-
-typedef struct command comm_t;
+} comm_t;
 
 typedef comm_t *comm_list_t;
 
-struct trash_env
+typedef struct trash_env
 {
 	char *value;
 	int *index;
 	struct trash_env *next;
-};
+} trashenv_t;
 
-typedef struct trash_env trashenv_t;
+
+typedef struct var_env
+{
+	char *value;
+	struct var_env *next;
+}	var_t;
 
 typedef struct path_dir
 {
@@ -52,6 +55,7 @@ extern int comms_index;
 extern trashenv_t *env_trash;
 extern pathdir_t *path_list;
 extern alias_t *aliases;
+extern var_t *variables;
 
 
 /* STRING UTILS */
@@ -136,6 +140,13 @@ char *_setalias(char *input);
 char *alias(char *input);
 void free_aliases(alias_t *list);
 void print_aliases();
+
+/* SHELL VARIABLES */
+void _getall_vars();
+char *_getvar(char *input);
+char *_setvar(char *input);
+void free_vars(var_t *list);
+
 
 /* MISC */
 int find_max(int num1, int num2);
