@@ -34,20 +34,21 @@ char *_getalias(char *input)
 
 char *_setalias(char *input)
 {
-	alias_t *new_alias = (alias_t *)malloc(sizeof(alias_t)), *current;
-	char *cpy = _strddup(input), *key = _strtok(cpy, "=");
+	alias_t *new_alias , *current;
+	char *cpy = NULL, *key = NULL;
 
+	new_alias = (alias_t *)malloc(sizeof(alias_t));
 	if (!new_alias)
 		return (NULL);
 	new_alias->value = _strddup(input), new_alias->next = NULL;
 
-	empty_state_buff("=");
 	if (!aliases)
 	{
 		aliases = new_alias;
-		free(cpy);
 		return (new_alias->value);
 	}
+	cpy = _strddup(input), key = _strtok(cpy, "=");
+	empty_state_buff("=");
 	current = aliases;
 
 	if (!current->next)
@@ -115,12 +116,13 @@ static int compare_and_sub(alias_t **current_ptr, alias_t **new_ptr,
 {
 	if (!_strcmp(((*current_ptr)->value), *input_ptr))
 	{
-		free((*new_ptr)), free(*cpy_ptr);
+		free((*new_ptr)->value), free(*cpy_ptr), free(*new_ptr);
 		return (1);
 	}
 	else if (is_start_str(*key_ptr, (*current_ptr)->value))
 	{
-		free((*current_ptr)->value);
+		free((*new_ptr)->value), free((*current_ptr)->value),
+		free(*cpy_ptr);
 		(*current_ptr)->value = _strddup(*input_ptr);
 		return (1);
 	}

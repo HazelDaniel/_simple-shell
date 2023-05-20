@@ -25,7 +25,7 @@ void handle_parsed_commands(char **all_commands)
 
 		if (in_str('|', cmd_trim) && in_str('&', cmd_trim))
 		{
-			if (first_oc(cmd_trim, '|') < first_oc(cmd_trim, '&'))
+			if (first_oc_of(cmd_trim, '|') < first_oc_of(cmd_trim, '&'))
 				split_by_or_and_order(&c_list, all_c, all_commands[i]);
 			else
 				split_by_and_or_order(&c_list, all_c, all_commands[i]);

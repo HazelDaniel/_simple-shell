@@ -40,3 +40,18 @@ VARIABLE REPLACEMENTS(or expansion):
 	is going to be an array of dynamically allocated strings(split_str)]
 	and then proceeds with the execution of the arguments
 	note: a variable has to begin with $ before you can search it against the variables list
+word_tok:
+	this splits a string(or_str) without removing the non-tokens
+	- create a struct for the string passed in. this struct looks like this:
+	{
+		int check_points[1024];
+		char vals[1024];
+	}
+	- it returns this struct
+	- we make an array of strings (s_arr) with the same size as the checkpoints
+	- we go through the check_points returned from this struct
+	- in each iteration with each item as 'point'
+		- we allocate a new string(n_str) that has a length of (_strlen(or_str + point + 1) + 1)
+		- we do a mem_cpy of (or_str + point) to n_str
+		- we set n_str[0] to vals[current index]
+		- we set s_arr[current index]

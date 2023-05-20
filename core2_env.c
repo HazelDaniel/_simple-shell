@@ -25,7 +25,7 @@ char *_getenv(char *input)
 		{
 			token = _strtok(NULL, "=");
 			empty_state_buff("=");
-			return (token);
+			return (_strddup(token));
 		}
 		empty_state_buff("=");
 		free(cp_buffer);
@@ -111,4 +111,3 @@ void _freenv()
 	free_str_arr(new_environ, 1);
 	new_environ = NULL;
 }
-

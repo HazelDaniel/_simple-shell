@@ -2,12 +2,13 @@
 
 char **_splitstr(char *str, char *delim)
 {
-	char **res_str = NULL, *token, cp_buff[1024] = "", *res_buff[1024] = {NULL};
+	char **res_str = NULL, *token, cp_buff[1024] = "", *res_buff[1024] = {NULL},
+	*trimmed = _trim(str);
 	size_t count = 0, res_index = 0, i = 0;
 
-	if (!str)
+	if (!trimmed)
 		return (NULL);
-	token = _strtok(__cp__(cp_buff, str), delim);
+	token = _strtok(__cp__(cp_buff, trimmed), delim);
 	while (token)
 	{
 		count = 0;
@@ -17,7 +18,7 @@ char **_splitstr(char *str, char *delim)
 		if (!res_buff[res_index])
 		{
 			for (i = 0; i < res_index; i++)
-				free(res_buff[i]);
+				free(res_buff[i]), free(trimmed);
 			return (NULL);
 		}
 		res_buff[res_index][count] = '\0';
@@ -26,17 +27,16 @@ char **_splitstr(char *str, char *delim)
 		token = _strtok(NULL, delim);
 		res_index++;
 	}
-
 	res_str = malloc((res_index + 1) * sizeof(char *));
 	if (res_str == NULL)
 	{
-		free_str_arr(res_buff, 1);
+		free_str_arr(res_buff, 1), free(trimmed);
 		return (NULL);
 	}
 	res_str[res_index] = NULL;
-
 	for (i = 0; i < res_index; i++)
 		res_str[i] = res_buff[i];
+	free(trimmed);
 
 	return (res_str);
 }
@@ -87,14 +87,14 @@ int adj_char_num(char *str, char c, int i)
 }
 
 /**
- * first_oc - a function that returns
+ * first_oc_of - a function that returns
  * the first occurrence of a character
  * in a string
  * @str: the string
  * @c: the character
  * Return: int
  **/
-int first_oc(char *str, char c)
+int first_oc_of(char *str, char c)
 {
 	int count = 0;
 
@@ -107,6 +107,18 @@ int first_oc(char *str, char c)
 		return (-1);
 }
 
+int first_oc(int (* f)(char c), char *str)
+{
+	int count = 0;
+
+	while (str[count] && !f(str[count]))
+		count++;
+
+	if (f(str[count]))
+		return (count);
+	else
+		return (-1);
+}
 /**
  * _strlen_p - returns the length of an array of
  * derived objects
