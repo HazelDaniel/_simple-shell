@@ -1,17 +1,5 @@
 #include "main.h"
 
-unsigned int _strlen_(char *str)
-{
-	int len = 0;
-
-	printf("this is the culprit :%s\n", str);
-	if (!str)
-		return (len);
-	while (str[len])
-		len++;
-
-	return (len);
-}
 int is_start_str(char *strsub, char *strsup)
 {
 	int sub_len = _strlen(strsub), sup_len = _strlen(strsup);
@@ -103,7 +91,7 @@ char **word_tok(char *str)
 	}
 	for (count = 0; new_tok->check_points[count] >= 0; count++)
 		;
-	s_arr = malloc((count + 1) * sizeof(char *));
+	s_arr = malloc(sizeof(char *) * (count + 1));
 	if (!s_arr)
 	{
 		free(new_tok);
@@ -114,18 +102,16 @@ char **word_tok(char *str)
 	for (i = 0; i < count; i++)
 	{
 		point = new_tok->check_points[i];
-		// this is the line of the seg fault
-		printf("point is :%d\n", point);
-		n_str = malloc(_strlen_(cpy + point + 1) + 2);
-		printf("<<<<%s\n", cpy + point + 1);
+		n_str = malloc(_strlen(cpy + point + 1) + 2);
 		if (!n_str)
 		{
 			free(new_tok), free_str_arr(s_arr, 1);
 			return (NULL);
 		}
 		n_str[_strlen(cpy + point + 1) + 1] = '\0';
-		_memcpy((char *)(cpy + point + 1), n_str + 1, _strlen(cpy + point + 1));
-		n_str[0] = new_tok->vals[i], s_arr[i] = _strddup(n_str);
+		_memcpy((cpy + point + 1), n_str + 1, _strlen(cpy + point + 1));
+		n_str[0] = new_tok->vals[i];
+		s_arr[i] = _strddup(n_str);
 		n_str = NULL;
 	}
 
@@ -141,7 +127,7 @@ wtok_t *gen_tok(char *str)
 	if (!str)
 		return (NULL);
 
-	new_tok = (wtok_t *)malloc(sizeof(wtok_t *));
+	new_tok = (wtok_t *)malloc(sizeof(wtok_t));
 	if (!new_tok)
 		return (NULL);
 
@@ -157,13 +143,12 @@ wtok_t *gen_tok(char *str)
 		if (is_hwp(str[i]) && is_print(str[i + 1]) && str[i + 1])
 		{
 			new_tok->vals[count] = str[i];
-			printf("value is =====>%c<==\n", str[i - 1]);
 			new_tok->check_points[count] = i;
 			str[i] = '\0';
 			count++;
 		}
 	}
-	printf("point count is :%d\n", count);
+
 	new_tok->check_points[count] = -1;
 	if (!count)
 	{

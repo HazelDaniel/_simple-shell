@@ -69,7 +69,6 @@ char *_setvar(char *input)
 	cpy = _strddup(input), key = _strtok(cpy, "=");
 	empty_state_buff("=");
 	current = variables;
-	printf("key is :%s\n", key);
 
 	if (!current->next)
 	{

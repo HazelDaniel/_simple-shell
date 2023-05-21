@@ -41,20 +41,10 @@ int main(void)
 	buff = _setvar("$=0");
 	buff = _setvar("v=3");
 	buff = _setvar("?=1");
-	buff = _getvar("$?");
-	printf("buff=>%s\n", buff);
-	free(buff);
-	// buff = _getvar("$v");
-	puts("we're here");
-	buff = lookup_var("$USER");
-	printf("user is %s\n", buff);
-	free(buff);
-	buff = NULL;
-	// line = "$TERM hello $$ $ $? $h $xx people $v! ";
-	line = "$TERM hello $$ $ $? $h $xx people $v! ";
+	line = "$TERM hello $$ $ $? $h $xx people$v! ";
 	buff = expand(line);
 	printf("expanded version is :%s\n", buff);
-	_getall_vars();
+	// _getall_vars();
 
 
 	_freenv();
